@@ -1,3 +1,4 @@
+import json
 import logging
 import sys
 
@@ -9,6 +10,7 @@ from osgeo import gdal
 
 source_raster = sys.argv[1]
 target_raster = sys.argv[2]
+stats_json_file = sys.argv[3]
 
 nodata = pygeoprocessing.get_raster_info(source_raster)['nodata'][0]
 
@@ -38,3 +40,6 @@ def rescale(block):
 pygeoprocessing.raster_calculator(
     [(source_raster, 1)], rescale, target_raster, gdal.GDT_Int16, -1
 )
+
+with open(stats_json_file, 'w') as stats_json:
+    json.dump({'minimum': int(minimum), 'maximum': int(maximum)}, stats_json)
