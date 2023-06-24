@@ -25,7 +25,7 @@ class OutputWidgetHandler(logging.Handler):
             'output_type': 'stream',
             'text': formatted_record+'\n'
         }
-        self.out.outputs = (new_output, ) + self.out.outputs
+        self.out.outputs = self.out.outputs + (new_output,)
 
     def show_logs(self):
         """ Show the logs """
@@ -64,7 +64,7 @@ EPSG_LABEL = widgets.Label("")  # For holding the name of the EPSG code
 EPSG_INPUT = widgets.Text(
     value='4326',
     placeholder='4326',
-    desription='EPSG code:',
+    description='EPSG code:',
     disabled=False
 )
 
