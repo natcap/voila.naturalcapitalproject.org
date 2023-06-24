@@ -10,5 +10,7 @@ RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
         pip cache purge
 
 ADD demo.ipynb /opt/app.ipynb
+ADD *.py /opt/
+WORKDIR /opt/
 
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
