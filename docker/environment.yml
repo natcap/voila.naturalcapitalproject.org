@@ -13,5 +13,6 @@ dependencies:
     - branca
     - requests
     - voila
+    - matplotlib
     - pip:
         - git+https://github.com/phargogh/pygeoprocessing.git@0d2744edebbb853d84c86629a760d464ee4cf03a#egg=pygeoprocessing
