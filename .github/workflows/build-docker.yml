@@ -59,6 +59,4 @@ jobs:
 
             - name: Push docker
               run: |
-                  docker push ghcr.io/${{ github.repository_owner }}/${{ env.CONTAINER_NAME }}:latest
-                  docker push ghcr.io/${{ github.repository_owner }}/${{ env.CONTAINER_NAME }}:${{ env.DATESTAMP_VERSION }}
-                  docker push ghcr.io/${{ github.repository_owner }}/${{ env.CONTAINER_NAME }}:$(git rev-parse --short HEAD)
+                  docker image push --all-tags ghcr.io/${{ github.repository_owner }}/${{ env.CONTAINER_NAME }}
