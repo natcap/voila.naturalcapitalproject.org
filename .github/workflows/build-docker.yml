@@ -24,7 +24,7 @@ defaults:
         shell: bash -l {0}
 
 env:
-    CONTAINER_NAME: natcap-noxn-levels
+    CONTAINER_NAME: prototype-jupyter-layer-clipping-app
 
 jobs:
     build:
