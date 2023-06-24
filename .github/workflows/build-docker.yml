@@ -7,6 +7,8 @@ on:
             - 'main'
         paths:
             - 'docker/*'
+            - '*.py'
+            - '*.ipynb'
             - '.github/workflows/build-docker.yml'
 
 concurrency:
