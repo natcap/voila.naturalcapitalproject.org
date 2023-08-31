@@ -43,6 +43,7 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     target_srs_wkt = target_srs.ExportToWkt()
     LOGGER.info(f"Source SRS WKT: {WGS84_SRS.ExportToWkt()}")
     LOGGER.info(f"Target SRS WKT: {target_srs_wkt}")
+    LOGGER.info(f"Source geometry: {aoi_geom}")
     source_bbox = shapely.geometry.shape(aoi_geom).bounds
     LOGGER.info(f"Source bbox: {source_bbox}")
     target_bbox = pygeoprocessing.transform_bounding_box(
@@ -54,6 +55,10 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
                 f"{target_bbox}")
 
     LOGGER.info("Warping to the target bounding box")
+    if not target_pixel_size:
+        LOGGER.info("Using the source raster's pixel size")
+        target_pixel_size = pygeoprocessing.get_raster_info(
+            source_raster_path)['pixel_size']
     LOGGER.info(f"Target pixel size:{target_pixel_size}")
     LOGGER.info(f"Target bounding box: {target_bbox}")
     LOGGER.info(f"Starting to warp {target_raster_path}")
