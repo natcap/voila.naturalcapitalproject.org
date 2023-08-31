@@ -1,16 +1,9 @@
 import logging
 import os
 
-import pygeoprocessing
 import shapely
 from ipyleaflet import Rectangle
-from osgeo import gdal
-from osgeo import osr
 
-gdal.DontUseExceptions()
-
-WGS84_SRS = osr.SpatialReference()
-WGS84_SRS.ImportFromEPSG(4326)
 LOGGER = logging.getLogger(os.path.basename(__file__))
 
 
@@ -29,6 +22,16 @@ def leaflet_rectangle_from_bbox(bbox):
 
 def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
             target_pixel_size):
+    # Do the expensive imports here in the compute function
+    LOGGER.info("Importing pygeoprocessing")
+    import pygeoprocessing
+    LOGGER.info("Importing GDAL")
+    from osgeo import gdal
+    from osgeo import osr
+    WGS84_SRS = osr.SpatialReference()
+    WGS84_SRS.ImportFromEPSG(4326)
+    gdal.DontUseExceptions()
+
     LOGGER.info(f"Starting to clip {source_raster_path}")
     LOGGER.info(f"Using target EPSG:{target_epsg}")
     # Clip the source raster to the target bounding box in WGS84
@@ -50,6 +53,7 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     LOGGER.info("Warping to the target bounding box")
     LOGGER.info(f"Target pixel size:{target_pixel_size}")
     LOGGER.info(f"Target bounding box: {target_bbox}")
+    LOGGER.info(f"Starting to warp {target_raster_path}")
     pygeoprocessing.warp_raster(
         base_raster_path=source_raster_path,
         target_pixel_size=target_pixel_size,
