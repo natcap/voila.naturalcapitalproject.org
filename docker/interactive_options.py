@@ -79,7 +79,7 @@ def upload_to_gcs(source_raster_path, layer_slug):
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(BUCKET)
-    today = datetime.datetime().strftime('%Y-%m-%d')
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
     target_filename = f'{layer_slug}-{today}-{uuid.uuid4()}'
     blob = bucket.blob(target_filename)
     blob.upload_from_filename(source_raster_path)
