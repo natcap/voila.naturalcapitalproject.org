@@ -1,10 +1,13 @@
+import datetime
 import logging
 import os
+import uuid
 
 import shapely
 from ipyleaflet import Rectangle
 
 LOGGER = logging.getLogger(os.path.basename(__file__))
+BUCKET = 'jupyter-app-temp-storage'
 
 
 def leaflet_rectangle_from_bbox(bbox):
@@ -64,3 +67,15 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     )
     LOGGER.info('Finished warping')
     LOGGER.info(f"Clipped raster available at {target_raster_path}")
+
+
+def upload_to_gcs(source_raster_path, layer_slug):
+    from google.cloud import storage
+
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(BUCKET)
+    today = datetime.datetime().strftime('%Y-%m-%d')
+    target_filename = f'{layer_slug}-{today}-{uuid.uuid4()}'
+    blob = bucket.blob(target_filename)
+    blob.upload_from_filename(source_raster_path)
+    return f"https://storage.googleapis.com/{BUCKET}/{target_filename}"
