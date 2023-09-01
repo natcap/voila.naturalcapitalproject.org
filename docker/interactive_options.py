@@ -33,6 +33,7 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     from osgeo import osr
 
     gdal.SetConfigOption('CPL_VSIL_USE_TEMP_FILE_FOR_RANDOM_WRITE', 'YES')
+    gdal.SetConfigOption('CPL_MACHINE_IS_GCE', 'YES')
     WGS84_SRS = osr.SpatialReference()
     WGS84_SRS.ImportFromEPSG(4326)
     gdal.DontUseExceptions()
