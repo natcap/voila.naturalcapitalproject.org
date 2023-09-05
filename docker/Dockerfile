@@ -7,7 +7,7 @@ ENV PROJ_LIB /usr/local/share/proj/
 # Instructions for including GCS FUSE from https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#run-clone-sample-repository-python
 USER root
 RUN set -e; \
-    apt-get update -y && apt-get install -y tini lsb-release; \
+    apt-get update -y && apt-get install -y tini lsb-release curl gnupg2; \
     gcsFuseRepo=gcsfuse-`lsb_release -c -s`; \
     echo "deb http://packages.cloud.google.com/apt $gcsFuseRepo main" | \
     tee /etc/apt/sources.list.d/gcsfuse.list; \
