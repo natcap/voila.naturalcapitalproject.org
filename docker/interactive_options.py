@@ -47,7 +47,8 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     LOGGER.info(f"Source SRS WKT: {WGS84_SRS.ExportToWkt()}")
     LOGGER.info(f"Target SRS WKT: {target_srs_wkt}")
     LOGGER.info(f"Source geometry: {aoi_geom}")
-    source_bbox = shapely.geometry.shape(aoi_geom).bounds
+    minx, maxx, miny, maxy = shapely.geometry.shape(aoi_geom).bounds
+    source_bbox = [minx, miny, maxx, maxy]
     LOGGER.info(f"Source bbox: {source_bbox}")
     target_bbox = pygeoprocessing.transform_bounding_box(
         bounding_box=source_bbox,
