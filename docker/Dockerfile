@@ -5,10 +5,9 @@ ENV PROJ_LIB /usr/local/share/proj/
 
 ####
 # Instructions for including GCS FUSE from https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#run-clone-sample-repository-python
+USER root
 RUN set -e; \
-    apt-get update -y && apt-get install -y \
-    tini \
-    lsb-release; \
+    apt-get update -y && apt-get install -y tini lsb-release; \
     gcsFuseRepo=gcsfuse-`lsb_release -c -s`; \
     echo "deb http://packages.cloud.google.com/apt $gcsFuseRepo main" | \
     tee /etc/apt/sources.list.d/gcsfuse.list; \
@@ -29,6 +28,7 @@ ADD gcsfuse_run.sh /opt/
 # Ensure the script is executable
 RUN chmod +x /opt/gcsfuse_run.sh
 
+USER $MAMBA_USER
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 ARG MAMBA_DOCKERFILE_ACTIVATE=1  # (otherwise python will not be found)
 RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
