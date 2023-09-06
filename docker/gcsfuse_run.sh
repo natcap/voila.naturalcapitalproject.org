@@ -25,7 +25,7 @@ exec /opt/conda/bin/voila \
     --no-browser \
     --pool_size=4 \
     --preheat_kernel=True \
-    --voila.ip=0.0.0.0 \
+    --server_url=0.0.0.0 \
     --show_tracebacks=True /opt/app.ipynb
 
 # [END cloudrun_fuse_script]
