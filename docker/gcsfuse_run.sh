@@ -20,12 +20,12 @@ echo "Mounting GCS Fuse."
 gcsfuse --debug_gcs --debug_fuse "$BUCKET" "$MNT_DIR"
 echo "Mounting completed."
 
-exec /opt/conda/bin/voila \
+/opt/conda/bin/voila \
     --no-browser \
     --port "$PORT" \
-    --pool_size 4 \
+    --pool_size 2 \
     --preheat_kernel True \
-    --show_tracebacks True /opt/app.ipynb
+    --show_tracebacks True /opt/app.ipynb &
 
 # [END cloudrun_fuse_script]
 
@@ -33,4 +33,4 @@ exec /opt/conda/bin/voila \
 # https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#defining_your_processes_in_the_startup_script
 # mention that the script ends with `wait`, but the script itself doesn't have
 # `wait` in it.  Adding here.
-wait
+wait -n
