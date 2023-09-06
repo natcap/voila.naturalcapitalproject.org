@@ -21,7 +21,7 @@ RUN set -e; \
 # Set fallback mount directory
 ENV MNT_DIR /mnt/gcs
 
-ENV BUCKET jupter-app-temp-storage
+ENV BUCKET jupyter-app-temp-storage
 
 # Copy local code to the container image.
 ADD gcsfuse_run.sh /opt/
