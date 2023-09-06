@@ -28,3 +28,9 @@ exec /opt/conda/bin/voila \
     --show_tracebacks True /opt/app.ipynb
 
 # [END cloudrun_fuse_script]
+
+# The docs at
+# https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#defining_your_processes_in_the_startup_script
+# mention that the script ends with `wait`, but the script itself doesn't have
+# `wait` in it.  Adding here.
+wait
