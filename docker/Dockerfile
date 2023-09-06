@@ -32,13 +32,14 @@ RUN chmod +x /opt/gcsfuse_run.sh
 
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 ARG MAMBA_DOCKERFILE_ACTIVATE=1  # (otherwise python will not be found)
-RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
-        micromamba clean --all --yes && \
-        pip cache purge
 
 ADD demo.ipynb /opt/app.ipynb
 ADD *.py /opt/
 WORKDIR /opt/
+RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
+        micromamba clean --all --yes && \
+        pip cache purge && \
+        jupyter trust /opt/app.ipynb
 
 # Use tini to manage zombie processes and signal forwarding
 # https://github.com/krallin/tini
