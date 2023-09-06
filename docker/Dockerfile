@@ -2,6 +2,7 @@ FROM --platform=linux/amd64 mambaorg/micromamba:1.4.1-bullseye-slim
 
 # Need to override the default PROJ_LIB; needs the trailing backslash
 ENV PROJ_LIB /usr/local/share/proj/
+ENV VOILA_APP_IP 0.0.0.0
 
 ####
 # Instructions for including GCS FUSE from https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#run-clone-sample-repository-python
