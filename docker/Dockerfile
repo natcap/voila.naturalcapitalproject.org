@@ -15,8 +15,7 @@ RUN set -e; \
     apt-key add -; \
     apt-get update; \
     apt-get install -y gcsfuse \
-    && apt-get clean \
-    && mkdir /mnt/gcs
+    && apt-get clean
 
 # Set fallback mount directory
 ENV MNT_DIR /mnt/gcs
@@ -29,7 +28,6 @@ ADD gcsfuse_run.sh /opt/
 # Ensure the script is executable
 RUN chmod +x /opt/gcsfuse_run.sh
 
-USER $MAMBA_USER
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 ARG MAMBA_DOCKERFILE_ACTIVATE=1  # (otherwise python will not be found)
 RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
