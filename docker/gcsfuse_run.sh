@@ -20,6 +20,9 @@ echo "Mounting GCS Fuse."
 gcsfuse --debug_gcs --debug_fuse "$BUCKET" "$MNT_DIR"
 echo "Mounting completed."
 
-exec /opt/conda/bin/voila --Voila-ip=0.0.0.0 --no-browser --show-tracebacks=True /opt/app.ipynb
+exec /opt/conda/bin/voila \
+    --port "$PORT" \
+    --no-browser \
+    --show-tracebacks=True /opt/app.ipynb
 
 # [END cloudrun_fuse_script]
