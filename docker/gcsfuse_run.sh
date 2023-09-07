@@ -21,11 +21,12 @@ gcsfuse --debug_gcs --debug_fuse "$BUCKET" "$MNT_DIR"
 echo "Mounting completed."
 
 /opt/conda/bin/voila \
+    --debug \
     --no-browser \
     --port "$PORT" \
     --pool_size 2 \
     --preheat_kernel True \
-    --show_tracebacks True /opt/app.ipynb &
+    --show_tracebacks True /opt/app.ipynb
 
 # [END cloudrun_fuse_script]
 
