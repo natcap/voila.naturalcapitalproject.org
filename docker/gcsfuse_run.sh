@@ -28,7 +28,7 @@ exec /opt/conda/bin/voila \
     --pool_size 2 \
     --preheat_kernel True \
     --show_tracebacks True /opt/app.ipynb
-echo "Voila started."
+#echo "Voila started."
 
 # [END cloudrun_fuse_script]
 
@@ -36,6 +36,6 @@ echo "Voila started."
 # https://cloud.google.com/run/docs/tutorials/network-filesystems-fuse#defining_your_processes_in_the_startup_script
 # mention that the script ends with `wait`, but the script itself doesn't have
 # `wait` in it.  Adding here.
-echo "Waiting"
-wait -n
-echo "Waiting complete, exiting."
+#echo "Waiting"
+#wait -n
+#echo "Waiting complete, exiting."
