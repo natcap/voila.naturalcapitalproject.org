@@ -41,9 +41,11 @@ RUN micromamba install -y -n base -c conda-forge -f /tmp/environment.yml && \
         pip cache purge && \
         jupyter trust /opt/app.ipynb
 
+EXPOSE 8866
+
 # Use tini to manage zombie processes and signal forwarding
 # https://github.com/krallin/tini
-ENTRYPOINT ["/usr/bin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "-vvv", "--", "/opt/gcsfuse_run.sh"]
 
 # Pass the startup script as arguments to Tini
-CMD ["/opt/gcsfuse_run.sh"]
+#CMD ["/opt/gcsfuse_run.sh"]
