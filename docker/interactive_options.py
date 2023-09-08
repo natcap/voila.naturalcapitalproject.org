@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+import subprocess
 import uuid
 
 import shapely
@@ -25,6 +26,11 @@ def leaflet_rectangle_from_bbox(bbox):
 
 def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
             target_pixel_size):
+    try:
+        os.environ['PROJ_LIB']
+    except KeyError:
+        os.environ['PROJ_LIB'] = '/var/www/prototype-jupyter-layer-clipping-app/env/share/proj/'
+
     # Do the expensive imports here in the compute function
     LOGGER.info("Importing pygeoprocessing")
     import pygeoprocessing
@@ -32,8 +38,6 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
     from osgeo import gdal
     from osgeo import osr
 
-    gdal.SetConfigOption('CPL_VSIL_USE_TEMP_FILE_FOR_RANDOM_WRITE', 'YES')
-    gdal.SetConfigOption('CPL_MACHINE_IS_GCE', 'YES')
     WGS84_SRS = osr.SpatialReference()
     WGS84_SRS.ImportFromEPSG(4326)
     gdal.DontUseExceptions()
@@ -81,10 +85,14 @@ def compute(source_raster_path, aoi_geom, target_epsg, target_raster_path,
 def upload_to_gcs(source_raster_path, layer_slug):
     from google.cloud import storage
 
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(BUCKET)
     today = datetime.datetime.now().strftime('%Y-%m-%d')
     target_filename = f'{layer_slug}-{today}-{uuid.uuid4()}'
-    blob = bucket.blob(target_filename)
-    blob.upload_from_filename(source_raster_path)
-    return f"https://storage.googleapis.com/{BUCKET}/{target_filename}"
+    try:
+        storage_client = storage.Client()
+        bucket = storage_client.bucket(BUCKET)
+        blob = bucket.blob(target_filename)
+        blob.upload_from_filename(source_raster_path)
+        return f"https://storage.googleapis.com/{BUCKET}/{target_filename}"
+    except:
+        LOGGER.info("Falling back to cmdline gsutil")
+        subprocess.run(["gsutil", "cp", source_raster_path, f'gs://{BUCKET}/target_filename'])
