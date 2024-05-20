@@ -44,12 +44,16 @@ def _dataset_colors_html(dataset_key):
         percent, colors = line.split(' ', 1)  # Stop after the first split
 
         colors = [c for c in colors.split(' ') if c]
-        if len(colors) == 1:
-            r, g, b = matplotlib.colors.to_rgb(colors[0])
-        elif len(colors) == 3:
-            r, g, b = colors
-        else:
-            r, g, b, a = colors
+        try:
+            if len(colors) == 1:
+                r, g, b = matplotlib.colors.to_rgb(colors[0])
+            elif len(colors) == 3:
+                r, g, b = colors
+            else:
+                r, g, b, a = colors
+        except ValueError:
+            print("Could not parse colors string ", colors)
+            raise
 
         colormap_list.append((float(r), float(g), float(b)))
 
