@@ -11,7 +11,7 @@ from osgeo import gdal
 
 gdal.DontUseExceptions()
 
-DATASETS_BASE_URL = "https://storage.googleapis.com/gef-ckan-public-data"
+DATASETS_BASE_URL = "https://storage.googleapis.com/natcap-data-cache/global"
 DATASETS_DIRECTORY_URL = f"{DATASETS_BASE_URL}/directory.json"
 DATASET_DIRECTORY = requests.get(
     DATASETS_DIRECTORY_URL).json()['public_layers']
