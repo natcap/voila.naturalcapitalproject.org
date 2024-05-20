@@ -52,7 +52,7 @@ def _dataset_colors_html(dataset_key):
             else:
                 r, g, b, a = colors
         except ValueError:
-            print("Could not parse colors string ", colors)
+            print(f"Could not parse colors string for {dataset_key}", colors)
             raise
 
         colormap_list.append((float(r), float(g), float(b)))
