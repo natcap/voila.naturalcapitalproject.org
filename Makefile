@@ -27,3 +27,7 @@ serve-jupyter: tiles
 
 serve-voila: tiles
 	voila demo.ipynb
+
+.PHONY: restart-vm
+restart-vm:
+	gcloud compute instances reset --zone=us-west1-b --project=sdss-natcap-gef-ckan voila-apps
